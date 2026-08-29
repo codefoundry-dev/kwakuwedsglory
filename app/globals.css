@@ -1,0 +1,285 @@
+@import "tailwindcss";
+
+@theme {
+  /* CF Weddings brand default palette */
+  --color-bg: #f8f1ef;
+  --color-ink: #3a3340;
+  --color-secondary: #8c6a6f;
+  --color-accent: #b08a8a;
+  --color-blush: #e4c9c4;
+
+  /* Moody dark tones derived from the brand palette (darkened ink/accent/blush) —
+     used only behind the placeholder photography, never as content backgrounds. */
+  --color-portrait-1: #241f29;
+  --color-portrait-2: #3d2830;
+  --color-portrait-3: #2c2230;
+
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-body: "Jost", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* No custom `* { margin: 0 }` reset here — Tailwind's Preflight (bundled
+   with the import above) already zeroes margins/padding and sets
+   border-box sizing. It does so inside Tailwind's own `base` cascade
+   layer, so utility classes (mt-*, mx-auto, space-y-*, ...) still win
+   over it. A hand-written *unlayered* reset would sit outside every
+   layer and — per the CSS cascade-layers spec — beat ALL layered rules
+   regardless of specificity, silently zeroing out every margin utility
+   on the site. Don't reintroduce one. */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.max-w-content {
+  max-width: 900px;
+}
+
+/* True full-bleed mobile hero: 100svh accounts for mobile browser chrome
+   (address bar, etc.) so the section never leaves a gap under it or
+   over-crops behind a collapsed toolbar. The 100vh line first is a
+   fallback for browsers without svh support — they simply ignore the
+   second (unsupported) declaration and keep the first. */
+.hero-full {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  min-height: 480px;
+}
+
+/* Scroll-cue chevron at the bottom of the hero (components/ScrollCue.tsx). */
+@keyframes scrollCueBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+.scroll-cue-bounce {
+  animation: scrollCueBounce 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-bounce {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+/* Dramatic display type — deliberately oversized against the tracked-out
+   Jost eyebrows, so hierarchy reads at a glance instead of feeling uniform. */
+.text-display-hero {
+  font-family: var(--font-display);
+  font-size: clamp(3.25rem, 14vw, 7rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+/* Same display treatment, but sized for the ~640px-capped desktop split-panel
+   content column rather than the full viewport — the mobile hero clamp above
+   would wrap "Kwaku & Glory" onto an awkward two-line break in that column. */
+.text-display-hero-column {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+}
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Scroll reveal — IntersectionObserver-driven (see components/Reveal.tsx)
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 0.9, 0.3, 1),
+    transform 0.7s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================================
+   Placeholder photography — see components/Portrait.tsx
+   No stock-photo couple; a calm, dark-toned abstract texture that stands
+   in for real photography until the couple's shoot is delivered. Swap by
+   passing a `src` to <Portrait> — see README "Swapping placeholder photography".
+   ============================================================ */
+.portrait-placeholder {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--color-portrait-1);
+}
+.portrait-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Highlights are deliberately low-percentage mixes into the dark base —
+     just enough tonal variation to read as out-of-focus bokeh, never light
+     enough to wash out or fight the legibility of overlaid text. */
+  background-image: radial-gradient(
+      ellipse 60% 45% at 20% 15%,
+      color-mix(in srgb, var(--color-blush) 22%, var(--color-portrait-2)) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 85% 30%,
+      color-mix(in srgb, var(--color-accent) 20%, var(--color-portrait-3)) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 70% 60% at 50% 90%,
+      color-mix(in srgb, var(--color-portrait-2) 70%, black) 0%,
+      transparent 70%
+    ),
+    linear-gradient(160deg, var(--color-portrait-3) 0%, var(--color-portrait-1) 100%);
+  filter: blur(38px) saturate(1.05);
+  transform: scale(1.15);
+}
+/* Fine grain overlay for editorial texture, via an inline SVG noise filter. */
+.portrait-placeholder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.portrait-placeholder--interior::before {
+  background-image: radial-gradient(
+      ellipse 50% 55% at 75% 20%,
+      color-mix(in srgb, var(--color-accent) 18%, var(--color-portrait-2)) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 15% 75%,
+      color-mix(in srgb, var(--color-blush) 16%, var(--color-portrait-3)) 0%,
+      transparent 65%
+    ),
+    linear-gradient(200deg, var(--color-portrait-1) 0%, var(--color-portrait-3) 100%);
+}
+.portrait-placeholder--fabric::before {
+  background-image: repeating-linear-gradient(
+      115deg,
+      color-mix(in srgb, var(--color-portrait-2) 90%, white 4%) 0px,
+      color-mix(in srgb, var(--color-portrait-2) 90%, white 4%) 2px,
+      transparent 2px,
+      transparent 5px
+    ),
+    radial-gradient(
+      ellipse 65% 55% at 30% 85%,
+      color-mix(in srgb, var(--color-blush) 15%, var(--color-portrait-3)) 0%,
+      transparent 70%
+    ),
+    linear-gradient(170deg, var(--color-portrait-3) 0%, var(--color-portrait-1) 100%);
+}
+.portrait-placeholder--botanical::before {
+  background-image: radial-gradient(
+      ellipse 40% 35% at 30% 25%,
+      color-mix(in srgb, var(--color-accent) 24%, var(--color-portrait-2)) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 45% 40% at 70% 70%,
+      color-mix(in srgb, var(--color-blush) 22%, var(--color-portrait-3)) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 55% 45% at 50% 50%,
+      color-mix(in srgb, var(--color-portrait-2) 70%, var(--color-portrait-1)) 0%,
+      transparent 70%
+    ),
+    linear-gradient(150deg, var(--color-portrait-1) 0%, var(--color-portrait-3) 100%);
+}
+
+/* Bottom-weighted scrim so overlaid text stays legible over any texture. */
+.portrait-scrim {
+  position: absolute;
+  inset: 0;
+  /* Never fully transparent — a flat dark wash sits under the whole image
+     so the texture always reads as moody/dark, with a heavier gradient at
+     the bottom for the overlaid text. */
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-portrait-1) 50%, transparent) 0%,
+    color-mix(in srgb, var(--color-portrait-1) 32%, transparent) 35%,
+    color-mix(in srgb, var(--color-portrait-1) 38%, transparent) 55%,
+    color-mix(in srgb, var(--color-portrait-1) 92%, transparent) 100%
+  );
+}
+
+/* ============================================================
+   Custom cursor follower — desktop/pointer only (components/CustomCursor.tsx)
+   ============================================================ */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent);
+  background: transparent;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.35s ease, background-color 0.35s ease, border-color 0.35s ease;
+  will-change: transform;
+}
+.cursor-ring--active {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+}
+
+@media not all and (hover: hover) and (pointer: fine) {
+  .cursor-ring {
+    display: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cursor-ring {
+    display: none !important;
+  }
+}
