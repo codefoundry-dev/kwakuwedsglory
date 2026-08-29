@@ -68,6 +68,24 @@ Individual chapter image bands (Details, Style Guide, FAQ, etc.) can be
 swapped the same way by passing a `src` to the relevant `<Portrait>` call
 in that page, once photos for those specific moments exist.
 
+## Open Graph share image
+
+`public/og-image.jpg` (1200×630) is what WhatsApp, iMessage, etc. show as
+the link preview card — wired up in `app/layout.tsx`'s `metadata.openGraph`
+/ `metadata.twitter`, with the path resolved to an absolute URL via
+`metadataBase`. It's currently a branded card built from the same temporary
+placeholder hero photo and type treatment as the live hero (not a real
+couple photo — see "Swapping placeholder photography" above).
+
+To regenerate it (e.g. once real photography lands, or after any copy
+change to `SITE_DESCRIPTION`/`HASHTAG` in `lib/site.ts`): the card is a
+plain HTML file rendered at exactly 1200×630 and screenshotted — there's no
+build-time script for this since it only needs to run once per asset
+update. Recreate the HTML (same fonts/colors as `app/globals.css`, a
+`file://` path to whatever photo you're using as the background), render
+it at 1200×630 with a headless browser, save as `public/og-image.jpg`, and
+confirm `curl -sI http://localhost:3000/og-image.jpg` returns `200`.
+
 ## Traditional ceremony privacy
 
 The couple wants to keep uninvited guests away from the traditional

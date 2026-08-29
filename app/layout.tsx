@@ -9,9 +9,12 @@ import {
   COUPLE_NAMES,
   HASHTAG,
   WEDDING_DATE_ISO,
+  OG_IMAGE,
 } from "@/lib/site";
 
-const DEFAULT_TITLE = `${COUPLE_NAMES} — The Wedding Issue`;
+// "Kwaku & Glory — #ThePerfectDuo26" — the hashtag doubles as a tagline, so
+// it carries the browser tab title and every share-preview card too.
+const DEFAULT_TITLE = `${COUPLE_NAMES} — ${HASHTAG}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -28,11 +31,14 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: DEFAULT_TITLE,
     description: SITE_DESCRIPTION,
+    images: [{ ...OG_IMAGE, alt: COUPLE_NAMES }],
+    locale: "en_GB",
   },
   twitter: {
     card: "summary_large_image",
     title: DEFAULT_TITLE,
     description: SITE_DESCRIPTION,
+    images: [OG_IMAGE.url],
   },
   robots: {
     index: true,

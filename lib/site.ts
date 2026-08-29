@@ -12,9 +12,6 @@ export const COUPLE_NAMES = "Kwaku & Glory";
 export const MONOGRAM = "K & G";
 export const HASHTAG = "#ThePerfectDuo26";
 
-export const SITE_DESCRIPTION =
-  "Join Kwaku & Glory as they celebrate their wedding — Friday, 4th December 2026.";
-
 // Magazine cover framing on the landing hero (see akingforjuu.com's "THE
 // WEDDING ISSUE" treatment).
 export const ISSUE_LABEL = "Issue No. 01";
@@ -41,6 +38,16 @@ export const HERO_IMAGE_RIGHT_SRC: string | undefined = undefined;
 // ISO date used by countdown + structured data. Times are in Africa/Accra (GMT, no DST).
 export const WEDDING_DATE_LABEL = "Friday, 4th December 2026";
 export const WEDDING_DATE_ISO = "2026-12-04";
+
+// Used for <meta description>, Open Graph, and Twitter Card copy.
+export const SITE_DESCRIPTION = `Join us as we say I do. ${WEDDING_DATE_LABEL}, Accra.`;
+
+// Social share preview image — see README → "Open Graph share image".
+export const OG_IMAGE = {
+  url: "/og-image.jpg",
+  width: 1200,
+  height: 630,
+} as const;
 
 export const TRADITIONAL_CEREMONY = {
   label: "Traditional Marriage",
