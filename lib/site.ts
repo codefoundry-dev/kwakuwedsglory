@@ -34,7 +34,7 @@ export const LOCATION_LABEL = "Accra, Ghana";
 // HERO_IMAGE_RIGHT_SRC below). Swap it for the couple's real hero shot as
 // soon as it's available.
 export const HERO_IMAGE_SRC: string | undefined =
-  "/assets/hero/Florals_and_greenery_still_life_202608291955.jpeg";
+  "/assets/hero/Florals_and_greenery_still_life_202608292118.jpeg";
 export const HERO_IMAGE_LEFT_SRC: string | undefined = undefined;
 export const HERO_IMAGE_RIGHT_SRC: string | undefined = undefined;
 
