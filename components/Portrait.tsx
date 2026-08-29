@@ -17,6 +17,7 @@ export default function Portrait({
   priority = false,
   sizes = "100vw",
   className,
+  objectPosition = "center",
 }: {
   src?: string;
   alt: string;
@@ -24,6 +25,8 @@ export default function Portrait({
   priority?: boolean;
   sizes?: string;
   className?: string;
+  /** object-position for the cropped image — e.g. "center", "top", "center 15%" — tune per-photo when a centered crop cuts off a head or key detail. */
+  objectPosition?: string;
 }) {
   if (src) {
     return (
@@ -36,6 +39,7 @@ export default function Portrait({
           priority={priority}
           loading={priority ? undefined : "lazy"}
           className="object-cover"
+          style={{ objectPosition }}
         />
       </div>
     );
