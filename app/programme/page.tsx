@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
-import { ChapterTopNav, ChapterBottomNav } from "@/components/ChapterNav";
-import ChapterHeader from "@/components/ChapterHeader";
+import { ChapterBottomNav } from "@/components/ChapterNav";
+import PageTransition from "@/components/PageTransition";
 import PageFooter from "@/components/PageFooter";
 import Reveal from "@/components/Reveal";
+import ProgrammeTimeline, { type ProgrammeItem } from "@/components/ProgrammeTimeline";
 import { getChapter } from "@/lib/chapters";
+import { WHITE_WEDDING, WEDDING_DATE_LABEL } from "@/lib/site";
 
 const SLUG = "/programme";
 const chapter = getChapter(SLUG);
@@ -13,27 +15,105 @@ export const metadata: Metadata = {
   alternates: { canonical: SLUG },
 };
 
+// Placeholder brackets ([officiant], [hymn no.], etc.) are rendered as-is —
+// swap them for the couple's real names/hymns/choirs when they send them.
+// Do not invent content for any bracketed field.
+const PROGRAMME: ProgrammeItem[] = [
+  {
+    eyebrow: "Arrival",
+    title: "Arrival of Guests",
+    secondary: "Musical prelude by the Organist & [choir/group]",
+  },
+  { eyebrow: "Procession", title: "Procession of Officiating Ministers" },
+  { eyebrow: "Procession", title: "Bridal Procession" },
+  { eyebrow: "Welcome", title: "Welcome & Introduction", secondary: "[officiant]" },
+  { eyebrow: "Coordinator", title: "Coordinator", secondary: "[officiant]" },
+  {
+    eyebrow: "Worship",
+    title: "Opening Hymn — SDAH [hymn no.]",
+    secondary: "Opening Prayer — [officiant]",
+  },
+  { eyebrow: "Scripture", title: "Scripture Reading", secondary: "[officiant]" },
+  { eyebrow: "Special Song", title: "[choir/group]" },
+  { eyebrow: "Sermonette", title: "Message", secondary: "[officiant]" },
+  { eyebrow: "Special Song", title: "[choir/group]" },
+  { title: "Affirmation of Vows", secondary: "[officiant]" },
+  {
+    eyebrow: "Prayer Song",
+    title: "[song / performer]",
+    secondary: "Followed by Signing of the Certificate",
+  },
+  {
+    eyebrow: "Offering",
+    title: "Love Offering",
+    secondary: "[officiant] · Song: [choir/group] · Offering Prayer: [officiant]",
+  },
+  {
+    eyebrow: "Introduction",
+    title: "Introduction of Couple & Presentation of Certificates",
+    secondary: "[officiant] — [officiant]",
+  },
+  { eyebrow: "Closing", title: "Closing Hymn — SDAH [hymn no.]" },
+  { eyebrow: "Closing", title: "Benediction", secondary: "[officiant]" },
+  { eyebrow: "March", title: "Wedding March" },
+  { eyebrow: "Recession", title: "Recession & Photography" },
+];
+
+// Reception order — placeholder brackets ([name], [officiant]) are rendered
+// as-is. No names, caterers, or details invented beyond what was supplied.
+const RECEPTION: ProgrammeItem[] = [
+  { title: "MC", secondary: "[name]", marker: "star" },
+  { title: "Opening Prayer", secondary: "[officiant]", marker: "star" },
+  { title: "Arrival of the Couple", secondary: "Grand entrance", marker: "diamond" },
+  { title: "Cake Cutting", marker: "diamond" },
+  { title: "Proposal for Toast", secondary: "[name]", marker: "star" },
+  { title: "Popping of Champagne", secondary: "Celebration begins", marker: "diamond" },
+  { title: "Cocktails & Couple Dance", secondary: "Music & celebration", marker: "diamond" },
+  { title: "Vote of Thanks", secondary: "[name]", marker: "star" },
+  { title: "Closing Prayer", secondary: "[officiant]", marker: "star" },
+];
+
 export default function ProgrammePage() {
   return (
     <div className="flex min-h-svh flex-col">
-      <ChapterTopNav slug={SLUG} />
+      <PageTransition className="flex-1">
+        <div className="mx-auto max-w-content px-5 pb-14 pt-16 text-center sm:px-8 sm:pb-20 sm:pt-24">
+          <Reveal>
+            <p className="eyebrow text-accent">Order of Service</p>
+            <h1 className="mt-4 text-display-hero text-ink">The Wedding Programme</h1>
+          </Reveal>
+        </div>
 
-      <main className="flex-1">
-        <ChapterHeader
-          eyebrow={chapter.eyebrow}
-          title="Order of Service"
-          subtitle="The full run of the day — hymns, readings, and every moment in between — will be posted here closer to the date."
-          tone={chapter.tone}
-        />
+        <div className="mx-auto max-w-content px-5 pb-16 sm:px-8">
+          <ProgrammeTimeline items={PROGRAMME} />
+        </div>
 
-        <div className="mx-auto max-w-content px-5 pb-24 pt-16 sm:px-8 sm:pt-24">
+        {/* The reception, right after the church programme — it's the same
+            day's timeline continuing, not a separate thing to explain twice. */}
+        <div className="mx-auto max-w-content px-5 pb-16 sm:px-8">
+          <Reveal className="border-t border-ink/10 pt-14 sm:pt-20">
+            <p className="eyebrow text-accent">The Reception</p>
+            <h2 className="mt-3 font-display text-3xl text-ink sm:text-4xl">
+              The Cocktail Hour
+            </h2>
+            <p className="mt-2 text-sm text-secondary">
+              {WEDDING_DATE_LABEL} &middot; Immediately after the ceremony
+              &middot; {WHITE_WEDDING.venueName}, {WHITE_WEDDING.venueArea}{" "}
+              (church premises)
+            </p>
+          </Reveal>
+          <div className="mt-10">
+            <ProgrammeTimeline items={RECEPTION} />
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-content px-5 pb-24 sm:px-8">
           <Reveal>
             <div className="flex flex-col items-start gap-5 border-t border-ink/10 pt-10">
-              <span className="eyebrow text-secondary/70">Programme coming soon</span>
+              <span className="eyebrow text-secondary/70">Printable copy coming soon</span>
               <p className="max-w-[50ch] text-body leading-relaxed text-ink/70">
-                Kwaku &amp; Glory are finalising the order of service. Once it&rsquo;s
-                ready, guests will be able to view it here or download a
-                printable copy.
+                A downloadable programme will be posted here closer to the
+                date.
               </p>
               <button
                 type="button"
@@ -45,7 +125,7 @@ export default function ProgrammePage() {
             </div>
           </Reveal>
         </div>
-      </main>
+      </PageTransition>
 
       <ChapterBottomNav slug={SLUG} />
       <PageFooter />

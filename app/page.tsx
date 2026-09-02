@@ -3,6 +3,7 @@ import Reveal from "@/components/Reveal";
 import Portrait from "@/components/Portrait";
 import ScrollCue from "@/components/ScrollCue";
 import PageFooter from "@/components/PageFooter";
+import PageTransition from "@/components/PageTransition";
 import { CHAPTERS, type Chapter } from "@/lib/chapters";
 import {
   MONOGRAM,
@@ -50,7 +51,7 @@ export default function LandingPage() {
   const secondGroup = CHAPTERS.slice(3);
 
   return (
-    <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(380px,640px)_minmax(0,1fr)]">
+    <PageTransition className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(380px,640px)_minmax(0,1fr)]">
       {/* Left photo panel — desktop only. The grid item itself stretches to
           match the (tall) center column's height by default; the sticky
           h-screen element lives *inside* it, one level down, so it has a
@@ -229,6 +230,6 @@ export default function LandingPage() {
           />
         </div>
       </div>
-    </div>
+    </PageTransition>
   );
 }

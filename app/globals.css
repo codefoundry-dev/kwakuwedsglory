@@ -55,6 +55,23 @@ a {
   color: var(--color-bg);
 }
 
+/* Chapter-mount fade (components/PageTransition.tsx) — short and
+   understated, just enough that a chapter swap reads as an intentional
+   transition rather than a dead pause while the new page loads. */
+.page-transition {
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.page-transition--visible {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    opacity: 1;
+    transition: none;
+  }
+}
+
 .max-w-content {
   max-width: 900px;
 }
@@ -119,6 +136,72 @@ a {
 }
 
 /* ============================================================
+   Site nav — fixed three-zone bar + full-screen chapter overlay
+   (components/SiteNav.tsx). The bar's hide/reveal is a plain transform
+   toggle driven by a scroll-direction class; the overlay is opacity-driven
+   and taken out of the tab order via `inert` while closed.
+   ============================================================ */
+.site-nav {
+  transform: translateY(0);
+  transition: transform 0.35s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+.site-nav--hidden {
+  transform: translateY(-100%);
+}
+
+.site-menu {
+  opacity: 0;
+  pointer-events: none;
+  /* Snappy on purpose — a tap should read as "dismissed at once," not fade
+     out slowly while the guest wonders if it registered. */
+  transition: opacity 0.18s ease-out;
+}
+.site-menu--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Loading state on the tapped chapter row (components/SiteNav.tsx) — a
+   small ring spinner by default; prefers-reduced-motion swaps it for a
+   static "Loading…" label instead of a spinning element. */
+.nav-loading-spinner {
+  display: block;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 9999px;
+  border: 2px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
+  border-top-color: var(--color-accent);
+  animation: navLoadingSpin 0.7s linear infinite;
+}
+.nav-loading-text {
+  display: none;
+}
+@keyframes navLoadingSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav {
+    transition: none;
+  }
+  .site-nav--hidden {
+    /* Keep the bar simply visible/sticky — no slide-away behaviour at all. */
+    transform: none !important;
+  }
+  .site-menu {
+    transition: none;
+  }
+  .nav-loading-spinner {
+    display: none;
+  }
+  .nav-loading-text {
+    display: inline;
+  }
+}
+
+/* ============================================================
    Scroll reveal — IntersectionObserver-driven (see components/Reveal.tsx)
    ============================================================ */
 .reveal {
@@ -136,6 +219,59 @@ a {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+/* ============================================================
+   Order of Service timeline (components/ProgrammeTimeline.tsx)
+   Each node fades/rises in on its own IntersectionObserver trigger — the
+   stagger is "free," since nodes are physically spaced down the page and
+   cross the viewport threshold one after another as the guest scrolls, no
+   synthetic delay needed. The accent line's growth is driven by the same
+   observer (see the component) via an inline scaleY, transitioned here.
+   ============================================================ */
+.timeline-node {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s cubic-bezier(0.22, 0.9, 0.3, 1),
+    transform 0.7s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+.timeline-node--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@keyframes timelineMarkerPulse {
+  0% {
+    transform: scale(0.5);
+  }
+  55% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.timeline-node--visible .timeline-marker-fill {
+  animation: timelineMarkerPulse 0.6s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+.timeline-line-progress {
+  transform-origin: top;
+  transition: transform 0.5s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline-node {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .timeline-node--visible .timeline-marker-fill {
+    animation: none;
+  }
+  .timeline-line-progress {
+    /* Beats the JS-driven inline scaleY — the line must render fully
+       drawn immediately, not just stop animating partway. */
+    transform: scaleY(1) !important;
+    transition: none !important;
   }
 }
 

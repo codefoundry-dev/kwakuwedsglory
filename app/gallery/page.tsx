@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ChapterTopNav, ChapterBottomNav } from "@/components/ChapterNav";
+import { ChapterBottomNav } from "@/components/ChapterNav";
+import PageTransition from "@/components/PageTransition";
 import ChapterHeader from "@/components/ChapterHeader";
 import PageFooter from "@/components/PageFooter";
 import Reveal from "@/components/Reveal";
@@ -19,9 +20,7 @@ const TONES: PortraitTone[] = ["floral", "interior", "fabric", "botanical"];
 export default function GalleryPage() {
   return (
     <div className="flex min-h-svh flex-col">
-      <ChapterTopNav slug={SLUG} />
-
-      <main className="flex-1">
+      <PageTransition className="flex-1">
         <ChapterHeader
           eyebrow={chapter.eyebrow}
           title="Photos"
@@ -48,7 +47,7 @@ export default function GalleryPage() {
             </p>
           </Reveal>
         </div>
-      </main>
+      </PageTransition>
 
       <ChapterBottomNav slug={SLUG} />
       <PageFooter />

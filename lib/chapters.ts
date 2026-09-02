@@ -1,12 +1,12 @@
 import type { PortraitTone } from "@/components/Portrait";
 
-// The chapter order for "The Wedding Issue". ChapterNav looks a slug up here
-// to render its back/forward links and "PAGE 0X" marker — add a chapter here
-// and every interior page's nav updates automatically.
+// The chapter order for "The Wedding Issue". SiteNav's overlay and every
+// interior page's PAGE 0X footer read this array — reorder or add a chapter
+// here and both update automatically.
 
 export type Chapter = {
   slug: string;
-  number: string; // "01".."09"
+  number: string; // "01".."10"
   label: string;
   eyebrow: string;
   // One-line editorial descriptor for the contents index (akingforjuu-style).
@@ -57,36 +57,52 @@ export const CHAPTERS: Chapter[] = [
     tone: "botanical",
   },
   {
-    slug: "/faq",
+    slug: "/order-of-photography",
     number: "06",
-    label: "FAQ",
+    label: "Order of Photography",
     eyebrow: "Chapter 06",
+    descriptor: "Family & friends, group by group",
+    tone: "botanical",
+  },
+  {
+    slug: "/faq",
+    number: "07",
+    label: "FAQ",
+    eyebrow: "Chapter 07",
     descriptor: "Answers to what you're wondering",
     tone: "fabric",
   },
   {
     slug: "/directions",
-    number: "07",
+    number: "08",
     label: "Directions",
-    eyebrow: "Chapter 07",
+    eyebrow: "Chapter 08",
     descriptor: "Maps, and getting there",
     tone: "interior",
   },
   {
     slug: "/gifts",
-    number: "08",
+    number: "09",
     label: "Gifts",
-    eyebrow: "Chapter 08",
+    eyebrow: "Chapter 09",
     descriptor: "For those who wish to bless us",
     tone: "fabric",
   },
   {
     slug: "/bridal-party",
-    number: "09",
+    number: "10",
     label: "Bridal Party",
-    eyebrow: "Chapter 09",
+    eyebrow: "Chapter 10",
     descriptor: "The friends standing beside us",
     tone: "floral",
+  },
+  {
+    slug: "/vendors",
+    number: "11",
+    label: "Vendors",
+    eyebrow: "Chapter 11",
+    descriptor: "The dream team who made it happen",
+    tone: "fabric",
   },
 ];
 

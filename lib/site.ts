@@ -93,3 +93,4 @@ export const GIFTS = {
 
 export const CF_WEDDINGS_URL = "https://cfweddings.live";
 export const CF_WEDDINGS_HANDLE = "@cfweddingslive";
+export const CF_WEDDINGS_INSTAGRAM_URL = "https://www.instagram.com/cfweddingslive/";

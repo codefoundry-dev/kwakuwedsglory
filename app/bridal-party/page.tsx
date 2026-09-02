@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ChapterTopNav, ChapterBottomNav } from "@/components/ChapterNav";
+import { ChapterBottomNav } from "@/components/ChapterNav";
+import PageTransition from "@/components/PageTransition";
 import ChapterHeader from "@/components/ChapterHeader";
 import PageFooter from "@/components/PageFooter";
 import Reveal from "@/components/Reveal";
@@ -20,9 +21,7 @@ export default function BridalPartyPage() {
 
   return (
     <div className="flex min-h-svh flex-col">
-      <ChapterTopNav slug={SLUG} />
-
-      <main className="flex-1">
+      <PageTransition className="flex-1">
         <ChapterHeader
           eyebrow={chapter.eyebrow}
           title="Bridal Party"
@@ -50,9 +49,6 @@ export default function BridalPartyPage() {
                   <h2 className="mt-2 font-display text-2xl text-ink sm:text-3xl">
                     {member.name}
                   </h2>
-                  <p className="mt-2 text-xs italic text-secondary/70">
-                    Fun fact — to be added
-                  </p>
                 </div>
               </Reveal>
             ))}
@@ -66,7 +62,7 @@ export default function BridalPartyPage() {
             </Reveal>
           )}
         </div>
-      </main>
+      </PageTransition>
 
       <ChapterBottomNav slug={SLUG} />
       <PageFooter />

@@ -27,8 +27,9 @@ tracked-out Jost eyebrows, and photography leading every major section.
 ## Structure
 
 - `app/page.tsx` — landing (`/`): the simon-style launcher
-- `app/story`, `/details`, `/programme`, `/style-guide`, `/gallery`, `/faq`,
-  `/directions`, `/gifts`, `/bridal-party` — the nine numbered chapters
+- `app/story`, `/details`, `/programme`, `/order-of-photography`,
+  `/style-guide`, `/gallery`, `/faq`, `/directions`, `/gifts`,
+  `/bridal-party` — the ten numbered chapters
   (order + nav wiring lives in `lib/chapters.ts`)
 - `app/t/[token]/page.tsx` — the private traditional-ceremony page (see
   below)

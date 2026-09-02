@@ -1,4 +1,8 @@
-import { CF_WEDDINGS_URL, CF_WEDDINGS_HANDLE } from "@/lib/site";
+import {
+  CF_WEDDINGS_URL,
+  CF_WEDDINGS_HANDLE,
+  CF_WEDDINGS_INSTAGRAM_URL,
+} from "@/lib/site";
 
 export default function PageFooter() {
   return (
@@ -17,7 +21,15 @@ export default function PageFooter() {
         >
           CF Weddings
         </a>{" "}
-        &middot; {CF_WEDDINGS_HANDLE}
+        &middot;{" "}
+        <a
+          href={CF_WEDDINGS_INSTAGRAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline decoration-accent/40 underline-offset-4 transition-colors hover:text-accent"
+        >
+          {CF_WEDDINGS_HANDLE}
+        </a>
       </p>
     </footer>
   );

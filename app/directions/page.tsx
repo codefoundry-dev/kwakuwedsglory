@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ChapterTopNav, ChapterBottomNav } from "@/components/ChapterNav";
+import { ChapterBottomNav } from "@/components/ChapterNav";
+import PageTransition from "@/components/PageTransition";
 import ChapterHeader from "@/components/ChapterHeader";
 import PageFooter from "@/components/PageFooter";
 import Reveal from "@/components/Reveal";
@@ -17,9 +18,7 @@ export const metadata: Metadata = {
 export default function DirectionsPage() {
   return (
     <div className="flex min-h-svh flex-col">
-      <ChapterTopNav slug={SLUG} />
-
-      <main className="flex-1">
+      <PageTransition className="flex-1">
         <ChapterHeader
           eyebrow={chapter.eyebrow}
           title="Directions"
@@ -67,7 +66,7 @@ export default function DirectionsPage() {
             </Reveal>
           </div>
         </div>
-      </main>
+      </PageTransition>
 
       <ChapterBottomNav slug={SLUG} />
       <PageFooter />

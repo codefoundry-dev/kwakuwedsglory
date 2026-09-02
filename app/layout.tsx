@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
+import SiteNav from "@/components/SiteNav";
 import {
   SITE_URL,
   SITE_NAME,
@@ -90,7 +91,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         <CustomCursor />
-        {children}
+        <SiteNav>{children}</SiteNav>
         <Analytics />
       </body>
     </html>

@@ -27,8 +27,8 @@ export default function EventCard({
   mapUrl,
 }: EventCardProps) {
   return (
-    <Reveal>
-      <article className="rounded-3xl border border-ink/10 bg-white/40 p-6 sm:p-10">
+    <Reveal className="h-full">
+      <article className="flex h-full flex-col rounded-3xl border border-ink/10 bg-white/40 p-6 sm:p-10">
         <p className="text-[0.7rem] uppercase tracking-[0.25em] text-accent">
           {index} &middot; {time}
         </p>

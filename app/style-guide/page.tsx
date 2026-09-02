@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ChapterTopNav, ChapterBottomNav } from "@/components/ChapterNav";
+import { ChapterBottomNav } from "@/components/ChapterNav";
+import PageTransition from "@/components/PageTransition";
 import ChapterHeader from "@/components/ChapterHeader";
 import PageFooter from "@/components/PageFooter";
 import Reveal from "@/components/Reveal";
@@ -42,9 +43,7 @@ const GUIDANCE = [
 export default function StyleGuidePage() {
   return (
     <div className="flex min-h-svh flex-col">
-      <ChapterTopNav slug={SLUG} />
-
-      <main className="flex-1">
+      <PageTransition className="flex-1">
         <ChapterHeader
           eyebrow={chapter.eyebrow}
           title="Style Guide"
@@ -87,7 +86,7 @@ export default function StyleGuidePage() {
             </p>
           </Reveal>
         </div>
-      </main>
+      </PageTransition>
 
       <ChapterBottomNav slug={SLUG} />
       <PageFooter />
